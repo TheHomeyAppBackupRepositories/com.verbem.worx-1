@@ -1,0 +1,22 @@
+{
+  "name": "com.verbem.worx",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.2.2"
+  },
+  "dependencies": {
+    "@flatten-js/core": "^1.3.5",
+    "aws-iot-device-sdk": "^2.2.12",
+    "axios": "^0.27.2",
+    "fixture-stdout": "^0.2.1",
+    "http-cookie-agent": "^4.0.2",
+    "https": "^1.0.0",
+    "mqtt": "^4.3.7",
+    "tough-cookie": "^4.1.2",
+    "uuid": "^8.3.2"
+  }
+}
