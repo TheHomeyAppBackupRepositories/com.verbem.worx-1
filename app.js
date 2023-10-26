@@ -63,7 +63,8 @@ const COMMANDCODES = {
     9: 'Safe Homing',
     90: 'Edge cut',
     91: 'Enable Party Mode',
-    92: 'Disable Party Mode'
+    92: 'Disable Party Mode',
+    93: 'Reset Blade Work Time'
 };
 
 const OMERRORCODES = {
@@ -566,6 +567,7 @@ class WorxApp extends Homey.App {
                     else if (args.commandCodes.id === '90') this.executeEdgecut(args.device);
                     else if (args.commandCodes.id === '91') this.executePartyMode(args.device, true);
                     else if (args.commandCodes.id === '92') this.executePartyMode(args.device, false);
+                    else if (args.commandCodes.id === '93') this.executeBladeReset(args.device);
                     return true;
                 } else {
                     return args.device.processCommand(args.commandCodes);
@@ -610,7 +612,7 @@ class WorxApp extends Homey.App {
         });
 
         this.conMower_PartyMode.registerRunListener(async (args, state) => {
-            return(args.device.getCapabilityValue('mowerPartyMode'))
+            return(args.device.getCapabilityValue('commandPartyMode'))
         });
 
         this.conMower_Error
@@ -674,27 +676,32 @@ class WorxApp extends Homey.App {
     async executeEdgecut(mowerDev) {
         let command;
         if (mowerDev.vision === true) {
-            command = '{"sc":{"time":0, "once":{"cfg":{"cut":{"b":1, "z":[]}}}}}';
+            command = '{"cut":{"b":1,"z":[]}}';
         } else {
             command = '{"sc":{"ots":{"bc":1,"wtm":0}}}';
         }
 
-        this.log('executeEdgecut', mowerDev.getData().serial);
+        this.log('executeEdgecut', command, mowerDev.getData().serial);
         mowerDev.driver.worx.sendMessage(command, mowerDev.getData().serial)
     }
 
     async executePartyMode(mowerDev, on) {
         let command;
         if (mowerDev.vision === true) {
-            command = '{"sc":{ "enabled" : 0 }}';
-            if (on) command = '{"sc":{ "enabled" : 1 }}';
+            command = '{"sc":{ "enabled" : 1 }}';
+            if (on) command = '{"sc":{ "enabled" : 0 }}';
         } else {
             command = '{"sc":{ "m":1, "distm": 0}}';
             if (on) command = '{"sc":{ "m":2, "distm": 0}}';
         }
 
-        this.log('executePartyMode', on, mowerDev.getData().serial);
-        mowerDev.driver.worx.sendMessage(command, mowerDev.getData().serial)
+        this.log('executePartyMode', on, command, mowerDev.getData().serial);
+        mowerDev.driver.worx.sendMessage(command, mowerDev.getData().serial);
+    }
+
+    async executeBladeReset(mowerDev) {
+        this.log('executeBladeReset', mowerDev.getData().serial);
+        mowerDev.driver.worx.resetBlade(mowerDev.getData().serial);
     }
 
     async executeZoneSequence(mowerDev, percentageZones) {

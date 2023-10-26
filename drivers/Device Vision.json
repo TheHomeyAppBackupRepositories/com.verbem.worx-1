@@ -1,0 +1,243 @@
+{
+    "id": 908834,
+    "uuid": "98845e75-b96f-4002-afb4-733c7ad34dba",
+    "product_id": 73,
+    "user_id": 724763,
+    "serial_number": "20233029470100443984",
+    "mac_address": null,
+    "name": "Roberto",
+    "locked": true,
+    "firmware_version": "3.32.0+3",
+    "firmware_auto_upgrade": true,
+    "push_notifications": true,
+    "sim": null,
+    "push_notifications_level": "warning",
+    "test": false,
+    "iot_registered": true,
+    "mqtt_registered": true,
+    "pin_code": null,
+    "registered_at": "2023-05-20 00:00:00",
+    "online": false,
+    "app_settings": null,
+    "protocol": 1,
+    "pending_radio_link_validation": null,
+    "capabilities": [
+        "auto_lock",
+        "bluetooth_pairing",
+        "border_cut",
+        "lock",
+        "mqtt",
+        "multi_zone_tag",
+        "one_time_scheduler",
+        "ota_upgrade",
+        "pause_over_border",
+        "rain_delay",
+        "unrestricted_mowing_time",
+        "vision"
+    ],
+    "capabilities_available": [],
+    "features": {
+        "auto_lock": true,
+        "bluetooth_pairing": true,
+        "chassis": "vision_m_2022",
+        "display_type": "lcd",
+        "input_type": "keyboard_push_knob",
+        "lock": true,
+        "mqtt": true,
+        "multi_zone_zones": 4,
+        "one_time_scheduler": true,
+        "rain_delay": true,
+        "unrestricted_mowing_time": true
+    },
+    "accessories": {
+        "digital_fence": true
+    },
+    "mqtt_endpoint": "iot.eu-west-1.worxlandroid.com",
+    "mqtt_topics": {
+        "command_in": "WX/MW/WR206E/98845e75-b96f-4002-afb4-733c7ad34dba/v1/commandIn",
+        "command_out": "WX/MW/WR206E/98845e75-b96f-4002-afb4-733c7ad34dba/v1/commandOut"
+    },
+    "warranty_registered": true,
+    "purchased_at": "2023-05-20 00:00:00",
+    "warranty_expires_at": "2028-05-20 00:00:00",
+    "setup_location": {
+        "latitude": 52.315438427080096,
+        "longitude": 5.609712749724845
+    },
+    "city": {
+        "id": 2756038,
+        "country_id": 528,
+        "name": "Gemeente Ermelo",
+        "latitude": 52.299999,
+        "longitude": 5.61667,
+        "created_at": "2018-02-15 22:09:25",
+        "updated_at": "2018-02-15 22:09:25"
+    },
+    "time_zone": "Europe/Amsterdam",
+    "lawn_size": 800,
+    "lawn_perimeter": 104,
+    "auto_schedule_settings": {
+        "boost": 2,
+        "grass_type": "mixed_species",
+        "irrigation": true,
+        "nutrition": {
+            "k": 10,
+            "n": 10,
+            "p": 10
+        },
+        "soil_type": "sand"
+    },
+    "auto_schedule": false,
+    "improvement": true,
+    "diagnostic": true,
+    "distance_covered": 452995,
+    "mower_work_time": 31599,
+    "blade_work_time": 30957,
+    "blade_work_time_reset": 0,
+    "blade_work_time_reset_at": null,
+    "battery_charge_cycles": 386,
+    "battery_charge_cycles_reset": 0,
+    "battery_charge_cycles_reset_at": null,
+    "created_at": "2023-02-22 01:35:26",
+    "updated_at": "2023-09-20 14:09:20",
+    "last_status": {
+        "timestamp": "2023-09-20 16:06:39",
+        "payload": {
+            "cfg": {
+                "id": 1381,
+                "tz": "Europe/Andorra",
+                "lg": "en",
+                "cmd": 0,
+                "log": {
+                    "imp": 0,
+                    "diag": 0
+                },
+                "vis": {
+                    "slab": 0
+                },
+                "sc": {
+                    "enabled": 1,
+                    "paused": 0,
+                    "once": {
+                        "time": 0,
+                        "cfg": {
+                            "cut": {
+                                "b": 0,
+                                "z": []
+                            }
+                        }
+                    },
+                    "slots": []
+                },
+                "cut": {
+                    "b": 0,
+                    "bd": 0,
+                    "ob": 0,
+                    "z": []
+                },
+                "mz": {
+                    "s": [
+                        {
+                            "id": 1,
+                            "c": 1,
+                            "cfg": {
+                                "cut": {
+                                    "bd": 100,
+                                    "ob": 1
+                                }
+                            }
+                        }
+                    ],
+                    "p": []
+                },
+                "rd": 0,
+                "al": {
+                    "lvl": 1,
+                    "t": 60
+                },
+                "tq": 0,
+                "modules": {
+                    "DF": {
+                        "fh": 0,
+                        "cut": 1
+                    },
+                    "HL": {
+                        "enabled": 0
+                    }
+                }
+            },
+            "dat": {
+                "uuid": "98845e75-b96f-4002-afb4-733c7ad34dba",
+                "mac": "106838032C61",
+                "tm": "2023-09-20T16:06:39.310Z",
+                "fw": "3.32.0+3",
+                "ls": 1,
+                "le": 0,
+                "conn": "wifi",
+                "bt": {
+                    "t": 23,
+                    "v": 19.8,
+                    "p": 86,
+                    "nr": 386,
+                    "c": 1,
+                    "m": 0
+                },
+                "head": {
+                    "uuid": "98845e7a-e109-4003-9221-3696b03f9f55",
+                    "fw": "1.2.20+2",
+                    "act": 1
+                },
+                "dmp": [
+                    -0.2,
+                    0.4,
+                    359.8
+                ],
+                "st": {
+                    "b": 30957,
+                    "d": 452995,
+                    "wt": 31599,
+                    "bl": 104
+                },
+                "act": 1,
+                "features": {
+                    "ble": 0
+                },
+                "rsi": -68,
+                "lk": 1,
+                "tr": 0,
+                "rain": {
+                    "s": 0,
+                    "cnt": 0
+                },
+                "sh": 0,
+                "sc": {
+                    "slot": 0,
+                    "once": 0
+                },
+                "cut": {
+                    "z": 0
+                },
+                "mz": [
+                    {
+                        "id": 1,
+                        "p": 104211,
+                        "a": 314503429
+                    }
+                ],
+                "cam": {
+                    "status": 0,
+                    "error": 0
+                },
+                "rfid": {
+                    "status": 0
+                },
+                "modules": {
+                    "DF": {
+                        "stat": "ok"
+                    }
+                }
+            }
+        }
+    },
+    "last_gps_status": null
+}

@@ -73,7 +73,8 @@
         "9": "Veilig naar Thuis",
         "90": "Kanten Maaien",
         "91": "Enable Party Mode",
-        "92": "Disable Party Mode"
+        "92": "Disable Party Mode",
+        "93": "Reset Blade Work tijd"
     },
     "OMSTATUSCODES" : {
         "99":           "Elke Status",

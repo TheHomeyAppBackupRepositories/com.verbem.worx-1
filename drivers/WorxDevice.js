@@ -25,7 +25,9 @@ class WorxDevice extends Homey.Device {
             const serial = this.getData().serial;
             this.log(`Device ready: ${this.getName()} - ${serial} `);
             this.homey.setTimeout(() => {
-                this.checkCapabilities().then( () => {this.updateMower(serial)});    
+                this.checkCapabilities().then(() => {
+                    this.updateMower(serial);
+                });    
             }, 10 * 1000);
                      
         });
@@ -58,18 +60,79 @@ class WorxDevice extends Homey.Device {
 
     async checkCapabilities() {
         for (const capability of Object.keys(this.homey.app.manifest.capabilities)) {
-            if (this.hasCapability(capability) === false && capability.startsWith('mower') === true && capability.startsWith('mowerZones') === false) {
-                this.addCapability(capability)
+            if (this.hasCapability(capability) === false && capability.startsWith('mower') === true && capability.startsWith('mowerZones') === false && ['mowerEdgeCut', 'mowerPartyMode', 'mowerLock'].includes(capability) === false) {
+                await this.addCapability(capability)
                 this.log('checkCapabilities() added', capability);
             };
+            if (this.hasCapability(capability) === false && capability.startsWith('command') === true) {
+                await this.addCapability(capability)
+                this.log('checkCapabilities() button added', capability);
+            };
         };
-    };
+        if (this.hasCapability('mowerEdgeCut')) await this.removeCapability('mowerEdgeCut');
+        if (this.hasCapability('mowerLock')) await this.removeCapability('mowerLock');
+        if (this.hasCapability('mowerPartyMode')) await this.removeCapability('mowerPartyMode');
+        if (this.hasCapability('commandPause')) await this.removeCapability('commandPause');
+        if (this.hasCapability('commandStart')) await this.removeCapability('commandStart');
+
+        if (this.hasCapability('commandStop')) {
+            this.registerCapabilityListener('commandStop', async (value, opts) => {
+                if (Object.keys(opts).length === 0) {
+                    // MANUAL IN THE APP
+                    if (value) this.homey.app.executeCommand(this, {id: '2', name: 'Stop from commandStop'})                    
+                    else this.homey.app.executeCommand(this, {id: '1', name: 'Resume from commandStop'})
+                }
+            });
+        }
+        if (this.hasCapability('commandPartyMode')) {
+            this.registerCapabilityListener('commandPartyMode', async (value, opts) => {
+                if (Object.keys(opts).length === 0) {
+                    // MANUAL IN THE APP
+                    this.homey.app.executePartyMode(this, value)                       
+                }
+            });
+        }
+        if (this.hasCapability('commandEdgeCut')) {
+            this.registerCapabilityListener('commandEdgeCut', async (value, opts) => {
+                if (Object.keys(opts).length === 0) {
+                    // MANUAL IN THE APP
+                    this.homey.app.executeEdgecut(this)                       
+                }
+            });
+        }
+        if (this.hasCapability('commandLock')) {
+            this.registerCapabilityListener('commandLock', async (value, opts) => {
+                if (Object.keys(opts).length === 0) {
+                    // MANUAL IN THE APP
+                    if (value) {
+                        this.homey.app.executeCommand(this, {id: '5', name: 'Lock from Device Settings'})
+                    }
+                    else {
+                        this.homey.app.executeCommand(this, {id: '6', name: 'UnLock from Device Settings'})
+                    }                     
+                }
+            });
+        }
+        if (this.hasCapability('commandResetBWT')) {
+            this.registerCapabilityListener('commandResetBWT', async (value, opts) => {
+                if (Object.keys(opts).length === 0) {
+                    // MANUAL IN THE APP
+                    if (value) {
+                        this.homey.app.executeBladeReset(this);
+                        this.homey.setTimeout(() => {
+                            this.setCapabilityValue('commandResetBWT', false);
+                        }, 1000);
+                    }
+                }
+            });
+        }
+    }
 
     async updateJob(action, statusCode) {
         const startSequence = '2';
         const leavingHome = '3';
 
-        if (action === 'init') {
+        if (action === 'init' || this.currentJob === undefined) {
             this.currentJob = [];
         }
         this.currentJob.push(statusCode);
@@ -108,6 +171,7 @@ class WorxDevice extends Homey.Device {
 
         for (const mower of this.driver.worx.deviceArray) {
             if (mower.serial_number == serial) {
+                await this.driver.setAvailability(mower);
                 if (mower.capabilities.includes('vision') === true) {
                     this.log('Vision capable device');
                     this.vision = true;
@@ -121,10 +185,7 @@ class WorxDevice extends Homey.Device {
                 this.setSettings({mowerSerialnumber: serial.toString()});
                 if ('locked' in mower) this.setSettings({mowerLock: mower.locked});
                 if ('messageData' in mower) this.driver.updateStatus(mower, mower.messageData); // device has been deleted and added in same session
-                else {
-                    this.driver.worx.sendPing(mower);
-                    this.driver.setAvailability(mower);
-                }
+                else this.driver.worx.sendPing(mower);
             };
         };
 

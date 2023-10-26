@@ -102,7 +102,7 @@ class Worx extends EventEmitter {
 
         this.homey.log('Login to ' + this.config.server);
         await this.simpleLogin();
-        if (this.session.access_token) {
+        if (this.session && this.session.access_token) {
             await this.getDeviceList();
             this.getProductList();
             await this.updateDevices();
@@ -115,7 +115,7 @@ class Worx extends EventEmitter {
             this.refreshTokenInterval = this.homey.setInterval(() => {
                 this.refreshToken();
             }, (this.session.expires_in - 200) * 1000);
-        }
+        } 
     }
 
     async simpleLogin() {
@@ -142,34 +142,24 @@ class Worx extends EventEmitter {
             this.homey.log(`Connected to ${this.config.server} server`);
         })
         .catch((error) => {
-            this.homey.error(error);
+            // this.homey.error(error);
             error.response && this.homey.error(JSON.stringify(error.response.data, ' ', 4));
         });
         return data;
     }
 
     async getDeviceList() {
-        await requestClient({
-            method: 'get',
-            url: `https://${this.clouds[this.config.server].url}/api/v2/product-items?status=1&gps_status=1`,
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json',
-                'user-agent': this.userAgent,
-                authorization: 'Bearer ' + this.session.access_token,
-                'accept-language': 'de-de',
-            },
-        })
+        await this.apiRequest(`product-items?status=1&gps_status=1`)
         .then(async (res) => {
-            this.homey.log(`Found ${res.data.length} devices`);
+            this.homey.log(`Found ${res.length} devices`);
 
-                this.homey.log(JSON.stringify(res.data, ' ', 4));
+                this.homey.log(JSON.stringify(res, ' ', 4));
                 this.homey.log(`https://${this.clouds[this.config.server].url}/api/v2/product-items?status=1&gps_status=1`);
                 this.homey.log('Bearer ' + this.session.access_token);
                 this.homey.log(this.userAgent);
                 
 
-            for (const device of res.data) {
+            for (const device of res) {
                 // this.homey.log(device);
                 const id = device.serial_number;
                 const name = device.name;
@@ -179,93 +169,45 @@ class Worx extends EventEmitter {
                     this.emit('foundDevice', device);
                 }, 10000);
             }
-            this.userDevices = res.data;
-        })
-        .catch((error) => {
-            this.homey.error(error);
-            error.response && this.homey.error(JSON.stringify(error.response.data, ' ', 4));
+            this.userDevices = res;
         });
     }
 
     async getProductList() {
-        await requestClient({
-            method: 'get',
-            url: `https://${this.clouds[this.config.server].url}/api/v2/products`,
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json',
-                'user-agent': this.userAgent,
-                authorization: 'Bearer ' + this.session.access_token,
-                'accept-language': 'de-de',
-            },
-        })
+        await this.apiRequest(`products`)
         .then(async (res) => {
-            this.homey.log(`Found ${res.data.length} products`);
+            this.homey.log(`Found ${res.length} products`);
             
-            if (this.debug) this.homey.log(JSON.stringify(res.data, ' ', 4));
+            if (this.debug) this.homey.log(JSON.stringify(res, ' ', 4));
 
             // for (const product of res.data) {
             //    this.productArray.push(product);
             // }
-            this.products = res.data; 
-        })
-        .catch((error) => {
-            this.homey.error(error);
-            error.response && this.homey.error(JSON.stringify(error.response.data, ' ', 4));
+            this.products = res; 
         });
     }
 
     async updateDevices() {
-        const statusArray = [
-            {
-                path: 'rawMqtt',
-                url: `https://${this.clouds[this.config.server].url}/api/v2/product-items/$id/?status=1&gps_status=1`,
-                desc: 'All raw data of the mower',
-            },
-        ];
         let count_array = 0;
         for (const device of this.deviceArray) {
-            for (const element of statusArray) {
-                const url = element.url.replace('$id', device.serial_number);
-                requestClient({
-                    method: 'get',
-                    url: url,
-                    headers: {
-                        accept: 'application/json',
-                        'content-type': 'application/json',
-                        'user-agent': this.userAgent,
-                        authorization: 'Bearer ' + this.session.access_token,
-                        'accept-language': 'de-de',
-                    },
-                })
-                .then(async (res) => {
-                    if (!res.data) {
-                        return;
-                    }
-                    if (element.path === 'rawMqtt') {
-                        this.deviceArray[count_array] = res.data;
-                        ++count_array;
-                    }
-                    this.emit('updateDevice', device, res.data);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        if (error.response.status === 401) {
-                            this.homey.log(JSON.stringify(error.response.data, ' ', 4));
-                            this.homey.log(element.path + ' receive 401 error. Refresh Token in 60 seconds');
-                            this.refreshTokenTimeout && this.homey.clearTimeout(this.refreshTokenTimeout);
-                            this.refreshTokenTimeout = this.homey.setTimeout(() => {
-                                this.refreshToken();
-                            }, 1000 * 60);
-                            return;
-                        }
-                    }
-                    this.homey.error(element.url);
-                    this.homey.error(error);
-                    error.response && this.homey.error(JSON.stringify(error.response.data, ' ', 4));
-                });
-            }
+            const data = this.apiRequest(`product-items/${device.serial_number}/?status=1&gps_status=1`)
+            .then(async (res) => {
+                if (!res) {
+                    return;
+                }
+                this.deviceArray[count_array] = res;
+                ++count_array;
+                this.emit('updateDevice', device, res);
+            });
         }
+    }
+
+    async resetBlade(device) {
+        const data = await this.apiRequest(`product-items/${device}/counters/blade/reset`, false, 'post')
+        .catch((error) => {
+            this.homey.error(error.message);
+        });
+        return data;
     }
 
     async start_mqtt() {
@@ -285,7 +227,7 @@ class Worx extends EventEmitter {
             const uuid = this.deviceArray[0].uuid || uuidv4();
             const mqttEndpoint = this.deviceArray[0].mqtt_endpoint || 'iot.eu-west-1.worxlandroid.com';
             if (this.deviceArray[0].mqtt_endpoint == null) {
-                this.homey.log(`Cannot read mqtt_endpoint use default`);
+                this.homey.log(`Cannot read mqtt_endpoint using default`);
             }
             const headers = this.createWebsocketHeader();
             const split_mqtt = mqttEndpoint.split('.');
@@ -343,11 +285,11 @@ class Worx extends EventEmitter {
                 try {
                     data = JSON.parse(message);
                 } catch (error) {
-                    this.homey.log('message is not JSON', message);
+                    this.homey.error('message is not JSON', message);
                     return;
                 }
 
-                this.homey.log(JSON.stringify(data, ' ', 4));
+                if (this.debug) this.homey.log(JSON.stringify(data, ' ', 4));
                 this.mqtt_blocking = 0;
                 const mower = this.deviceArray.find((mower) => mower.mqtt_topics.command_out === topic);
                 const merge = this.deviceArray.findIndex((merge) => merge.mqtt_topics.command_out === topic);
@@ -537,8 +479,8 @@ class Worx extends EventEmitter {
             this.homey.error(error);
             if (error.response) {
                 if (error.response.status === 401) {
-                    this.homey.log(JSON.stringify(error.response.data, ' ', 4));
-                    this.homey.log(path + ' receive 401 error. Refresh Token in 30 seconds');
+                    this.homey.error(JSON.stringify(error.response.data, ' ', 4));
+                    this.homey.error(path + ' receive 401 error. Refresh Token in 30 seconds');
                     this.refreshTokenTimeout && this.homey.clearTimeout(this.refreshTokenTimeout);
                     this.refreshTokenTimeout = this.homey.setTimeout(() => {
                         this.refreshToken();
@@ -619,7 +561,7 @@ class Worx extends EventEmitter {
                     if (this.debug) this.homey.log(`this.mqtt_response_check:  ${JSON.stringify(this.mqtt_response_check)}`);
                     this.mqttC.publish(mower.mqtt_topics.command_in, JSON.stringify(data), { qos: 1 });
                 } catch (error) {
-                    this.homey.log(`sendMessage normal:  ${error}`);
+                    this.homey.error(`sendMessage normal:  ${error}`);
                     this.mqttC.publish(mower.mqtt_topics.command_in, message, { qos: 1 });
                 }
             }

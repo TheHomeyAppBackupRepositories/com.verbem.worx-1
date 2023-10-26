@@ -60,6 +60,11 @@ class WorxDriver extends Homey.Driver {
         this.worx = new Worx(this.settings.username, this.settings.password, this.homey, this.server);
         this.worx.debug = this.settings.debug;
         await this.worx.login();
+        if (!this.worx.session || this.worx.session === undefined) {
+            this.error('DoTheWorx no session');
+            this.homey.api.realtime('Invalid', 'Invalid credentials');
+            return;
+        } else this.homey.api.realtime('Invalid', 'Logged on successfully');
 
 		this.worx
 			.on('foundDevice', async (mower) => {
@@ -152,7 +157,7 @@ class WorxDriver extends Homey.Driver {
         };
 
         this.log('updateStatus with MQTT message for', mower.serial_number, mower.name);
-        // this.log(JSON.stringify(data, ' ', 4));
+        if (this.worx.debug) this.log(JSON.stringify(data, ' ', 4));
 
         var dev;
 
@@ -163,6 +168,7 @@ class WorxDriver extends Homey.Driver {
             return;
         }
 
+        // if (dev.vision) this.visionUpdateStatus(mower, data, dev);
         const devName = dev.getName();
 
         // MOWER DATA.cfg FIELDS (configuration fields)
@@ -172,27 +178,27 @@ class WorxDriver extends Homey.Driver {
                 dev.setCapabilityValue('mowerTimeExtend', data.cfg.sc.p); // mover time extend
             }
             if (!dev.vision && data.cfg.sc && 'm' in data.cfg.sc) {
-                if (!dev.hasCapability('mowerPartyMode')) await dev.addCapability('mowerPartyMode');
+                if (!dev.hasCapability('commandPartyMode')) await dev.addCapability('commandPartyMode');
                 let partyMode = false;
                 if (data.cfg.sc.m === 2) partyMode = true;
-                const currentPartyMode = dev.getCapabilityValue('mowerPartyMode');
+                const currentPartyMode = dev.getCapabilityValue('commandPartyMode');
                 if (partyMode !== currentPartyMode) {
                     if (partyMode === true) this.homey.app.trgMower_partyMode_on.trigger(dev).catch(error => {this.error(devName, 'error trigger Party mode on', error)});
                     else this.homey.app.trgMower_partyMode_off.trigger(dev).catch(error => {this.error(devName, 'error trigger Party mode off', error)});
                 }
-                dev.setCapabilityValue('mowerPartyMode', partyMode); // mover Partymode
+                dev.setCapabilityValue('commandPartyMode', partyMode); // mover Partymode
             }
             //VISION
             if (dev.vision && data.cfg.sc && 'enabled' in data.cfg.sc) {
-                if (!dev.hasCapability('mowerPartyMode')) await dev.addCapability('mowerPartyMode');
+                if (!dev.hasCapability('commandPartyMode')) await dev.addCapability('commandPartyMode');
                 let partyMode = false;
                 if (data.cfg.sc.enabled === 0) partyMode = true;
-                const currentPartyMode = dev.getCapabilityValue('mowerPartyMode');
+                const currentPartyMode = dev.getCapabilityValue('commandPartyMode');
                 if (partyMode !== currentPartyMode) {
                     if (partyMode === true) this.homey.app.trgMower_partyMode_on.trigger(dev).catch(error => {this.error(devName, 'error trigger Party mode on', error)});
                     else this.homey.app.trgMower_partyMode_off.trigger(dev).catch(error => {this.error(devName, 'error trigger Party mode off', error)});
                 }
-                dev.setCapabilityValue('mowerPartyMode', partyMode); // mover Partymode
+                dev.setCapabilityValue('commandPartyMode', partyMode); // mover Partymode
             }
             if (data.cfg.mz && !('p' in data.cfg.mz)) {
                 let numberZones = 0;
@@ -210,6 +216,11 @@ class WorxDriver extends Homey.Driver {
                     });
                     dev.setCapabilityValue('mowerZones', JSON.stringify(percentageZones));
                 }
+            }
+            if (!dev.vision && data.cfg.sc && 'ots' in data.cfg.sc && 'bc' in data.cfg.sc.ots) {
+                let borderCut = false;
+                if (data.cfg.sc.ots.bc === 1) borderCut = true;
+                dev.setCapabilityValue('commandEdgeCut', borderCut);
             }
 
         }
@@ -332,10 +343,10 @@ class WorxDriver extends Homey.Driver {
                 dev.setCapabilityValue('mowerRaindelay', data.dat.rain.cnt);  // raindelay left in minutes
             }
             
-            if ('lk' in data.dat && dev.hasCapability('mowerLock')) {
+            if ('lk' in data.dat && dev.hasCapability('commandLock')) {
                 let mowerLock = false                                     // mower lock
                 if (data.dat.lk == 1) mowerLock = true;
-                dev.setCapabilityValue('mowerLock', mowerLock);
+                dev.setCapabilityValue('commandLock', mowerLock);
             }
             if ('rsi' in data.dat) {
                 dev.setCapabilityValue('wifiState', `rsi: ${data.dat.rsi}`); // wifi
@@ -413,7 +424,6 @@ class WorxDriver extends Homey.Driver {
                 }
             }
         } catch (error) {
-            this.log('setAvailability', mower.serial_number, error);
             // NOOP, get around to it next time, device might not be in Homey just yet
         }
     }

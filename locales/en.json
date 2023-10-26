@@ -73,7 +73,8 @@
         "9": "Safe Homing",
         "90": "Edge Cut",
         "91": "Enable Party Mode",
-        "92": "Disable Party Mode"
+        "92": "Disable Party Mode",
+        "93": "Reset Blade Work time"
     },
     "OMSTATUSCODES" : {
         "99":           "Any Status",

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.verbem.worx",
-  "version": "5.2.5",
+  "version": "5.3.2",
   "compatibility": ">=6.0.0",
   "sdk": 3,
   "name": {
@@ -1966,15 +1966,8 @@
         "mowerRaindelay",
         "mowerBladetime",
         "mowerDistance",
-        "mowerLock",
-        "mowerPartyMode",
         "mowerLawnsize"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -1988,6 +1981,11 @@
           "template": "add_devices"
         }
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "platforms": [
         "local"
       ],
@@ -2020,15 +2018,8 @@
         "mowerRaindelay",
         "mowerBladetime",
         "mowerDistance",
-        "mowerLock",
-        "mowerPartyMode",
         "mowerLawnsize"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -2042,6 +2033,11 @@
           "template": "add_devices"
         }
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "platforms": [
         "local"
       ],
@@ -2059,14 +2055,6 @@
               "value": "",
               "label": {
                 "en": "Serialnumber"
-              }
-            },
-            {
-              "id": "mowerLock",
-              "type": "checkbox",
-              "value": false,
-              "label": {
-                "en": "Lock"
               }
             }
           ]
@@ -2100,15 +2088,8 @@
         "mowerRaindelay",
         "mowerBladetime",
         "mowerDistance",
-        "mowerLock",
-        "mowerPartyMode",
         "mowerLawnsize"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -2122,6 +2103,11 @@
           "template": "add_devices"
         }
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "platforms": [
         "local"
       ],
@@ -2139,14 +2125,6 @@
               "value": "",
               "label": {
                 "en": "Serialnumber"
-              }
-            },
-            {
-              "id": "mowerLock",
-              "type": "checkbox",
-              "value": false,
-              "label": {
-                "en": "Lock"
               }
             }
           ]
@@ -2180,15 +2158,8 @@
         "mowerRaindelay",
         "mowerBladetime",
         "mowerDistance",
-        "mowerLock",
-        "mowerPartyMode",
         "mowerLawnsize"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -2202,6 +2173,11 @@
           "template": "add_devices"
         }
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "platforms": [
         "local"
       ],
@@ -2219,14 +2195,6 @@
               "value": "",
               "label": {
                 "en": "Serialnumber"
-              }
-            },
-            {
-              "id": "mowerLock",
-              "type": "checkbox",
-              "value": false,
-              "label": {
-                "en": "Lock"
               }
             }
           ]
@@ -2257,11 +2225,6 @@
         "alarm_Mower",
         "mowerBatteryVoltage"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -2278,6 +2241,11 @@
       "platforms": [
         "local"
       ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "discovery": "openmower",
       "id": "openmower",
       "settings": [
@@ -2328,6 +2296,115 @@
       "insights": false,
       "uiComponent": "sensor",
       "icon": "./drivers/landroid/assets/mowerAlarm.svg"
+    },
+    "commandEdgeCut": {
+      "type": "boolean",
+      "title": {
+        "de": "Kantenschnitt",
+        "en": "Edge Cut",
+        "nl": "Rand Routine",
+        "fr": "Coupe de bord"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "button",
+      "icon": "./drivers/landroid/assets/commandEdgeCut.svg"
+    },
+    "commandLock": {
+      "type": "boolean",
+      "title": {
+        "de": "Lock/Unlock",
+        "en": "Lock/Unlock",
+        "nl": "Lock/Unlock",
+        "fr": "Verrouiller/Déverrouiller"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "button",
+      "icon": "./drivers/landroid/assets/commandLock.svg"
+    },
+    "commandPartyMode": {
+      "type": "boolean",
+      "title": {
+        "de": "Party Mode",
+        "en": "Party mode",
+        "nl": "Feest mode",
+        "fr": "Mode de fete"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "button",
+      "icon": "./drivers/landroid/assets/commandPartyMode.svg"
+    },
+    "commandResetBWT": {
+      "type": "boolean",
+      "title": {
+        "de": "Klingenarbeitszeit zurücksetzen",
+        "en": "Reset blade worktime",
+        "nl": "Reset lemmet werktijd"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "button",
+      "icon": "./drivers/landroid/assets/commandResetBWT.svg"
+    },
+    "commandStop": {
+      "type": "boolean",
+      "title": {
+        "de": "Stop",
+        "en": "Stop",
+        "nl": "Stop",
+        "fr": "Arrêt"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "button",
+      "icon": "./drivers/landroid/assets/commandStop.svg"
+    },
+    "measure_battery": {
+      "type": "number",
+      "title": {
+        "en": "Battery",
+        "nl": "Accuniveau",
+        "de": "Batterie",
+        "fr": "Batterie",
+        "it": "Batteria",
+        "sv": "Batteri",
+        "no": "Batteri",
+        "es": "Batería",
+        "da": "Batteri",
+        "ru": "Аккумулятор",
+        "pl": "Bateria"
+      },
+      "units": {
+        "en": "%"
+      },
+      "insights": false,
+      "min": 0,
+      "max": 100,
+      "desc": {
+        "en": "Battery charge in percentage (%)",
+        "nl": "Accuniveau in procenten (%)",
+        "de": "Batteriestand in Prozent (%)",
+        "fr": "Pourcentage de charge de la batterie (%)",
+        "it": "Percentuale di carica della batteria (%)",
+        "sv": "Batteriladdning i procent (%)",
+        "no": "Batterilading i prosent (%)",
+        "es": "Carga de la batería en porcentaje (%)",
+        "da": "Batteriniveau i procent (%)",
+        "ru": "Зарядка аккумулятора в процентах (%)",
+        "pl": "Naładowanie baterii w procentach (%)"
+      },
+      "chartType": "spline",
+      "decimals": 2,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "battery"
     },
     "mowerBatteryTemperature": {
       "type": "number",
@@ -2388,6 +2465,20 @@
       "preventInsights": true,
       "uiComponent": "sensor",
       "icon": "./drivers/landroid/assets/mowerDistance.svg"
+    },
+    "mowerEdgeCut": {
+      "type": "boolean",
+      "title": {
+        "de": "Party Mode",
+        "en": "Party mode",
+        "nl": "Feest mode",
+        "fr": "Mode de fete"
+      },
+      "getable": true,
+      "setable": true,
+      "preventInsights": true,
+      "uiComponent": "sensor",
+      "icon": "./drivers/landroid/assets/commandPartyMode.svg"
     },
     "mowerError": {
       "type": "string",
@@ -2502,7 +2593,7 @@
       "setable": true,
       "preventInsights": true,
       "uiComponent": "sensor",
-      "icon": "./drivers/landroid/assets/mowerPartyMode.svg"
+      "icon": "./drivers/landroid/assets/commandPartyMode.svg"
     },
     "mowerRaindelay": {
       "type": "number",

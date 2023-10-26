@@ -81,7 +81,7 @@ class OpenmowerDevice extends Device {
         const id = this.getData().id;
         
         let ip;
-        ip = '192.168.107.88';
+        // ip = '192.168.107.88';
         const mqttPort = 1883;
 
         this.driver.foundDevices.forEach(device => {

@@ -351,10 +351,6 @@
 
   	function onHomeyReady(Homey) {
 
-    Homey.on('error', err => {
-      if (err) return Homey.alert(`Authentication error ${err}`);
-    });
-
     Homey.get('worx', (err, settings) => {
 		if ( err ) {
 			return Homey.alert(`Get Landroid Settings Error ${err}`);
@@ -401,6 +397,10 @@
 		debugFerrexElement.checked = FerrexSettings.debug;
 		if (userFerrexElement.value > '') tabFerrexElement.style.display = 'block'; else tabFerrexElement.style.display = 'none';
 		if (userFerrexElement.value > '') supportFerrex.checked = true; else supportFerrex.checked = false;
+    });
+
+	Homey.on('Invalid', (err) => {
+      	return Homey.alert(err);
     });
 
     supportLandroid.addEventListener('click', function (e) {

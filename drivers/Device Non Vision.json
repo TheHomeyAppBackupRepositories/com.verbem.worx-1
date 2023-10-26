@@ -1,0 +1,302 @@
+{
+    "id": 269941,
+    "uuid": "96c52d7f-29e7-4002-ba4a-fbf5957b4621",
+    "product_id": 50,
+    "user_id": 201560,
+    "serial_number": "201830199312002708EF",
+    "mac_address": "98D86321C09C",
+    "name": "Voor",
+    "locked": true,
+    "firmware_version": "3.28.0+1",
+    "firmware_auto_upgrade": true,
+    "push_notifications": true,
+    "sim": null,
+    "push_notifications_level": "warning",
+    "test": false,
+    "iot_registered": true,
+    "mqtt_registered": true,
+    "pin_code": null,
+    "registered_at": "2019-06-22 00:00:00",
+    "online": true,
+    "app_settings": null,
+    "protocol": 0,
+    "pending_radio_link_validation": null,
+    "capabilities": [
+        "auto_lock",
+        "border_cut",
+        "digital_fence_settings",
+        "follow_border",
+        "lock",
+        "mqtt",
+        "multi_zone",
+        "multi_zone_percentage",
+        "one_time_scheduler",
+        "ota_upgrade",
+        "pairing_smartlink",
+        "pause_over_border",
+        "pause_over_wire",
+        "rain_delay",
+        "rain_delay_start",
+        "safe_go_home",
+        "scheduler_two_slots",
+        "unrestricted_mowing_time"
+    ],
+    "capabilities_available": [
+        "zone_keeper"
+    ],
+    "features": {
+        "auto_lock": 3.25,
+        "chassis": "m_2019",
+        "digital_fence_settings": 3.25,
+        "display_type": "lcd",
+        "input_type": "keyboard_arrow_keys",
+        "lock": true,
+        "mqtt": true,
+        "multi_zone": true,
+        "multi_zone_percentage": true,
+        "multi_zone_zones": 4,
+        "one_time_scheduler": 3.15,
+        "pause_over_wire": 3.26,
+        "rain_delay": true,
+        "rain_delay_start": 3.08,
+        "safe_go_home": 3.25,
+        "scheduler_two_slots": 3.15,
+        "unrestricted_mowing_time": true,
+        "wifi_pairing": "smartlink"
+    },
+    "accessories": null,
+    "mqtt_endpoint": "iot.eu-west-1.worxlandroid.com",
+    "mqtt_topics": {
+        "command_in": "PRM100/98D86321C09C/commandIn",
+        "command_out": "PRM100/98D86321C09C/commandOut"
+    },
+    "warranty_registered": false,
+    "purchased_at": null,
+    "warranty_expires_at": null,
+    "setup_location": {
+        "latitude": 52.203949725916786,
+        "longitude": 4.814120199126929
+    },
+    "city": {
+        "id": 2745973,
+        "country_id": 528,
+        "name": "Uithoorn",
+        "latitude": 52.237499,
+        "longitude": 4.82639,
+        "created_at": "2018-02-15 22:14:33",
+        "updated_at": "2018-02-15 22:14:33"
+    },
+    "time_zone": "Europe/Amsterdam",
+    "lawn_size": 275,
+    "lawn_perimeter": 79,
+    "auto_schedule_settings": {
+        "boost": 0,
+        "exclusion_scheduler": {
+            "days": [
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                },
+                {
+                    "slots": [],
+                    "exclude_day": false
+                }
+            ],
+            "exclude_nights": true
+        },
+        "grass_type": "mixed_species",
+        "irrigation": false,
+        "nutrition": null,
+        "soil_type": "silt"
+    },
+    "auto_schedule": true,
+    "improvement": true,
+    "diagnostic": true,
+    "distance_covered": 675063,
+    "mower_work_time": 42569,
+    "blade_work_time": 40811,
+    "blade_work_time_reset": 40811,
+    "blade_work_time_reset_at": "2023-09-19 15:26:34",
+    "battery_charge_cycles": 282,
+    "battery_charge_cycles_reset": null,
+    "battery_charge_cycles_reset_at": null,
+    "created_at": "2019-01-16 20:40:06",
+    "updated_at": "2023-09-19 15:29:32",
+    "last_status": {
+        "timestamp": "2023-09-22 07:00:21",
+        "payload": {
+            "cfg": {
+                "id": 2160,
+                "sn": "201830199312002708EF",
+                "dt": "22/09/2023",
+                "tm": "09:00:19",
+                "lg": "en",
+                "cmd": 0,
+                "sc": {
+                    "m": 2,
+                    "d": [
+                        [
+                            "11:00",
+                            90,
+                            1
+                        ],
+                        [
+                            "11:00",
+                            90,
+                            0
+                        ],
+                        [
+                            "11:00",
+                            90,
+                            0
+                        ],
+                        [
+                            "11:00",
+                            90,
+                            1
+                        ],
+                        [
+                            "11:00",
+                            75,
+                            0
+                        ],
+                        [
+                            "11:00",
+                            75,
+                            0
+                        ],
+                        [
+                            "11:00",
+                            75,
+                            0
+                        ]
+                    ],
+                    "dd": [
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ],
+                        [
+                            "00:00",
+                            0,
+                            0
+                        ]
+                    ],
+                    "distm": 0,
+                    "p": 0,
+                    "ots": {
+                        "wtm": 0,
+                        "bc": 0
+                    }
+                },
+                "mz": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "mzv": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "rd": 60,
+                "al": {
+                    "lvl": 0,
+                    "t": 60
+                },
+                "tq": 0
+            },
+            "dat": {
+                "mac": "98D86321C09C",
+                "fw": 3.28,
+                "fwb": 1,
+                "ls": 1,
+                "le": 5,
+                "conn": "wifi",
+                "bt": {
+                    "t": 12.7,
+                    "v": 17.8,
+                    "p": 40,
+                    "nr": 282,
+                    "c": 1,
+                    "m": 0
+                },
+                "dmp": [
+                    -1.4,
+                    0.1,
+                    167
+                ],
+                "st": {
+                    "b": 40811,
+                    "d": 675063,
+                    "wt": 42569,
+                    "bl": 79
+                },
+                "act": 1,
+                "rsi": -68,
+                "lk": 1,
+                "tr": 0,
+                "lz": 6,
+                "rain": {
+                    "s": 1,
+                    "cnt": 60
+                }
+            }
+        }
+    },
+    "last_gps_status": null
+}

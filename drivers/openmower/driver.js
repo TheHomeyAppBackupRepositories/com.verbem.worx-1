@@ -27,7 +27,7 @@ class OpenmowerDriver extends Driver {
 			db.settings = {};
 			db.data.id = discoveryResult.id;
 			db.settings.host = discoveryResult.address;
-			db.settings.host = '192.168.107.88';
+			// db.settings.host = '192.168.107.88';
 			db.name = discoveryResult.name;
 			db.discoveryResult = discoveryResult;
 			this.foundDevices = this.foundDevices.concat(db);
